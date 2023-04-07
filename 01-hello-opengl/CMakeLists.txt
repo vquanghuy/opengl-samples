@@ -32,11 +32,10 @@ set(EXTERNAL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
 # Add include directories for GLFW
 include_directories(${EXTERNAL_DIR}/glfw/include)
 
-# Search for all source files in the src directory
-aux_source_directory(src SRC_FILES)
-
-# Add executable target
-add_executable(HelloOpenGL ${SRC_FILES})
+# Add GLAD library
+include_directories(${EXTERNAL_DIR}/glad/include)
+set(GLAD_SOURCES ${EXTERNAL_DIR}/glad/src/gl.c)
+add_library(glad STATIC ${GLAD_SOURCES})
 
 # Configure lib path based on platform
 if(PLATFORM STREQUAL "darwin_arm64")
@@ -51,8 +50,14 @@ elseif(PLATFORM STREQUAL "linux")
   # TBU
 endif()
 
-# Link against GLFW
-target_link_libraries(HelloOpenGL PRIVATE ${GLFW_LIB})
+# Search for all source files in the src directory
+aux_source_directory(src SRC_FILES)
+
+# Add executable target
+add_executable(HelloOpenGL ${SRC_FILES})
+
+# Link against GLFW and GLAD
+target_link_libraries(HelloOpenGL PRIVATE ${GLFW_LIB} glad)
 
 # Set the output directory
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)

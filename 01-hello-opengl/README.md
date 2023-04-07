@@ -1,5 +1,10 @@
 # Hello OpenGL
 
+Depended libraries
+
+* GLFW
+* GLAD
+
 Generate Xcode project file
 
 ```
