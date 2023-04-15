@@ -2,6 +2,8 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+#include "loader.h"
+
 int main(void)
 {
     GLFWwindow* window;
@@ -41,6 +43,40 @@ int main(void)
         << GLAD_VERSION_MAJOR(version) << "."
         << GLAD_VERSION_MINOR(version)
         << std::endl;
+
+    // load shaders
+    GLuint shaderProgram = loadShader(
+        "../assets/shaders/triangle.vert.glsl", 
+        "../assets/shaders/triangle.frag.glsl"
+    );
+
+    // setup vertices data (and buffer(s)) and configure vertex attributes
+    GLfloat vertices[] = {
+        // positions         // colors
+         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // bottom right
+        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // bottom left
+         0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // top 
+
+    };
+
+    GLuint VBO, VAO;
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // as we only have a single shader, we could also just activate our shader once beforehand if we want to 
+    glUseProgram(shaderProgram);
     
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -49,12 +85,22 @@ int main(void)
         glClearColor(0.16f, 0.24f, 0.32f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // render the triangle
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
         /* Poll for and process events */
         glfwPollEvents();
     }
+
+    // optional: de-allocate all resources once they've outlived their purpose:
+    // ------------------------------------------------------------------------
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(shaderProgram);
 
     glfwTerminate();
     return 0;
