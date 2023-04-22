@@ -27,20 +27,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 add_definitions(-DGL_SILENCE_DEPRECATION)
 
 # Set the directory for external dependencies
-set(EXTERNAL_DIR ${CMAKE_CURRENT_SOURCE_DIR}/external)
+set(EXTERNAL_DIR ${CMAKE_SOURCE_DIR}/external)
 
-# Add include directories for GLFW
+# Add GLFW library
 include_directories(${EXTERNAL_DIR}/glfw/include)
 
-# Add GLAD library
-include_directories(${EXTERNAL_DIR}/glad/include)
-set(GLAD_SOURCES ${EXTERNAL_DIR}/glad/src/gl.c)
-add_library(glad STATIC ${GLAD_SOURCES})
-
-# Add STB Image header include
-include_directories(${EXTERNAL_DIR})
-
-# Configure lib path based on platform
+# Configure GLFW binary path based on platform
 if(PLATFORM STREQUAL "darwin_arm64")
   set(CMAKE_OSX_ARCHITECTURES "arm64")
   set(GLFW_LIB ${EXTERNAL_DIR}/glfw/lib-arm64/libglfw3.a)
@@ -52,6 +44,14 @@ elseif(PLATFORM STREQUAL "windows")
 elseif(PLATFORM STREQUAL "linux")
   # TBU
 endif()
+
+# Add GLAD library
+include_directories(${EXTERNAL_DIR}/glad/include)
+set(GLAD_SOURCES ${EXTERNAL_DIR}/glad/src/gl.c)
+add_library(glad STATIC ${GLAD_SOURCES})
+
+# Add STB header include
+include_directories(${EXTERNAL_DIR}/stb)
 
 # Search for all source files in the src directory
 aux_source_directory(src SRC_FILES)
