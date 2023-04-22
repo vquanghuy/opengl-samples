@@ -6,12 +6,12 @@ This repository contains my personal OpenGL projects
 
 1. [Hello OpenGL](01-hello-opengl/README.md)
 2. [Hello Triangle](02-hello-triangle/README.md)
+3. [Texture Mapping](03-texture-mapping/README.md)
 
 ## Upcomming
 
-* Texture mapping
-* Object rendering
 * Camera
+* Object rendering
 * Lighting
 * Multiple points light
 * Shadow
