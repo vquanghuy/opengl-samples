@@ -1,10 +1,11 @@
-# Texture Mapping
+# 04 - Transformation
 
 Depended libraries
 
-* GLFW
-* GLAD
-* _(new)_ [STB Image Loader](https://github.com/nothings/stb)
+* [GLFW](https://github.com/glfw/glfw)
+* [GLAD](https://gen.glad.sh)
+* [STB Image Loader](https://github.com/nothings/stb)
+* _(new)_ [GLM](https://github.com/g-truc/glm)
 
 Generate Xcode project file
 
@@ -15,17 +16,15 @@ cmake -G Xcode -B ./build .
 Open project and build
 
 ```
-open build/TextureMapping.xcodeproj/
+open build/Transformation.xcodeproj/
 ```
 
-In this sample, we added a texture loader to load an image and put to a rectangle.
+In this sample, we added transformation consists model, view and projection matrix.
 
-<img width="752" alt="Screenshot 2023-04-22 at 09 40 37" src="https://user-images.githubusercontent.com/11500792/233758103-84081660-7aba-4d9f-86ef-691cde66ceec.png">
+![ezgif-1-b81c94da5d](https://user-images.githubusercontent.com/11500792/233768076-69664e4e-221f-41b3-965c-124741f91caa.gif)
 
 ### Keynotes
 
-* Image loader
-* Texture, texture coordinates
+* OpenGL Mathematics - GLM
 * Uniform
-* Sampler2D
-* `glDrawElements` and EBO (element buffer object) / IBO (index buffer object)
+* MVP matrix
