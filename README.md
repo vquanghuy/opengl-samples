@@ -31,6 +31,7 @@ These projects are inspired from https://learnopengl.com, https://www.rastertek.
 * OpenGL 4.1
 * CMake
 
-## VSCode Extensions
+## Misc
 
 1. [Shader languages support for VS Code](https://marketplace.visualstudio.com/items?itemName=slevesque.shader)
+2. [Dear ImGui](https://github.com/ocornut/imgui)
