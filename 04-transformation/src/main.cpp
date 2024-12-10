@@ -1,4 +1,5 @@
 #include <iostream>
+#include <thread>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec3.hpp> // glm::vec3
@@ -16,6 +17,20 @@ glm::mat4 camera(float translate, float rotateZ = 0.0f) {
     glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -translate));
     glm::mat4 model = glm::rotate(glm::mat4(1.0f), rotateZ, glm::vec3(0.0f, 0.0f, 1.0f));
     return projection * view * model;
+}
+
+void limitFPS(int targetFPS) {
+    static auto lastTime = std::chrono::high_resolution_clock::now();
+    const double targetFrameTime = 1.0 / targetFPS;
+
+    const auto currentTime = std::chrono::high_resolution_clock::now();
+    const double elapsedTime = std::chrono::duration<double>(currentTime - lastTime).count();
+
+    if (elapsedTime < targetFrameTime) {
+        std::this_thread::sleep_for(std::chrono::duration<double>(targetFrameTime - elapsedTime));
+    }
+
+    lastTime = std::chrono::high_resolution_clock::now();
 }
 
 int main(void) {
@@ -132,10 +147,13 @@ int main(void) {
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, nullptr);
 
-        /* Swap front and back buffers */
+        // limit FPS
+        limitFPS(60);
+
+        // Swap front and back buffers
         glfwSwapBuffers(window);
 
-        /* Poll for and process events */
+        // Poll for and process events
         glfwPollEvents();
     }
 
