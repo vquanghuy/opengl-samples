@@ -1,6 +1,8 @@
-# OpenGL Samples
+# DEPRECATED - OpenGL Samples
 
-This repository contains my personal OpenGL projects
+**This repository is no longer actively maintained.**
+
+Development and future updates have moved to the [Learn OpenGL repository](https://github.com/vquanghuy/learn-opengl).
 
 ## Completed
 
